@@ -68,14 +68,15 @@ function Pagination() {
             <div
               style={{
                 margin: "10px",
-                width: "200px",
+                width: "300px",
                 border: "1px solid white",
+                height : "300px"
               }}
               key={key}
             >
               <h2>{e.name}</h2>
               <div>
-                <img style={{ width: "100px" }} src={e.image} alt="" />
+                <img style={{ width: "120px" }} src={e.image} alt="" />
               </div>
               <p>Rating : {e.rating}</p>
             </div>
