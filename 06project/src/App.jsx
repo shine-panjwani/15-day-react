@@ -1,118 +1,192 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
-import { useEffect } from "react";
-const students = [
-  { name: "Shine", age: 21, course: "React" },
-  { name: "Aman", age: 23, course: "Node.js" },
-  { name: "Meena", age: 22, course: "React" },
-  { name: "Rahul", age: 20, course: "Python" },
-  { name: "Sneha", age: 25, course: "Node.js" },
-];
 
-const cellStyle = {
-  border: "1px solid white",
-  padding: "8px",
-  textAlign: "left",
-};
 function App() {
-  const [showTable, setShowTable] = useState(false);
-  const [search, setSearch] = useState("");
-  const [debouncedData, setDebouncedData] = useState("");
+  const [name, setName] = useState("");
+  const [age, setAge] = useState("");
+  const [course, setCourse] = useState("");
 
-  const [selectedValue, setSelectedValue] = useState("");
+  const [formData, setFormData] = useState([]);
+
+  const [searchCourse, setSearchCourse] = useState("");
+  const [debounceSearchCourse, setDebounceSearchCourse] = useState("");
+  function handleFormData(e) {
+    e.preventDefault();
+    const newEntry = { name, age, course };
+    setFormData([...formData, newEntry]);
+    setAge("");
+    setName("");
+    setCourse("");
+  }
+  const [debouncedName, setDebouncedName] = useState("");
+  const [debouncedCourse, setDebouncedCourse] = useState("");
+  const [serachBtn, setSearchBtn] = useState(false);
   useEffect(() => {
-    let interval = setTimeout(() => {
-      setDebouncedData(search);
+    const interval = setTimeout(() => {
+      setDebouncedName(name);
     }, 500);
     return () => clearTimeout(interval);
-  }, [search]);
+  }, [name]);
+  useEffect(() => {
+    const interval = setTimeout(() => {
+      setDebouncedCourse(course);
+    }, 500);
+    return () => clearTimeout(interval);
+  }, [course]);
+  useEffect(() => {
+    const id = setTimeout(() => {
+      setDebounceSearchCourse(searchCourse);
+    }, 500);
+
+    return () => clearTimeout(id);
+  }, [searchCourse]);
+
+  function handleDelete(index) {
+    console.log(index);
+    const updatedData = [...formData];
+    updatedData.splice(index, 1);
+    setFormData(updatedData);
+  }
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
+    <>
+      <h1>Form to register</h1>
       <div>
-        {" "}
-        <h1>Table of students : </h1>
-        <table
-          style={{
-            width: "60%",
-            margin: "20px auto",
-            borderCollapse: "collapse",
-          }}
-        >
-          <thead>
-            <tr>
-              <th style={cellStyle}>Name</th>
-              <th style={cellStyle}>Age</th>
-              <th style={cellStyle}>Course</th>
-            </tr>
-          </thead>
-          <tbody>
-            {students.map((v, key) => (
-              <tr key={key}>
-                <td style={cellStyle}>{v.name}</td>
-                <td style={cellStyle}>{v.age}</td>
-                <td style={cellStyle}>{v.course}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <div>
-        <input
-          type="search"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <h3>Input : {debouncedData}</h3>
-        <select
-          onChange={(e) => {
-            setSelectedValue(e.target.value);
-          }}
-          name="course"
-        >
-          <option>React</option>
-          <option>Node.js</option>
-          <option>Python</option>
-          <option>Java</option>
-          <option>C++</option>
-        </select>
-        <br />
+        <div>
+          <label htmlFor="">Name : </label>
+          <input
+            value={name}
+            type="text"
+            name="name"
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+          />
+        </div>
+        <div>
+          <label htmlFor="">Age : </label>
+          <input
+            value={age}
+            type="number"
+            name="age"
+            onChange={(e) => setAge(e.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor="">Course : </label>
+          <input
+            value={course}
+            type="text"
+            name="course"
+            onChange={(e) => setCourse(e.target.value)}
+          />
+        </div>
         <br />
 
-        <h3>Selected course : {selectedValue}</h3>
-        <button onClick={() => setShowTable((p) => !p)}>
-          {showTable ? "Hide Table" : "Show table"}
+        <button
+          onClick={(e) => {
+            handleFormData(e);
+          }}
+        >
+          Add student
         </button>
+        <br />
+        <br />
+        <p>Name : {debouncedName}</p>
+        <p>Course : {debouncedCourse}</p>
 
-        {showTable && 
-        <table>
+        <br />
+        <br />
+
+        <table
+          border="1"
+          cellPadding="10"
+          style={{ borderCollapse: "collapse", marginTop: "20px" }}
+        >
           <thead>
             <tr>
-              <th style={cellStyle}>Name</th>
-              <th style={cellStyle}>Age</th>
-              <th style={cellStyle}>Course</th>
+              <th>Name</th>
+              <th>Age</th>
+              <th>Course</th>
             </tr>
           </thead>
           <tbody>
-            {(students.filter((v) =>((v.course  === selectedValue) &&(v.name ===search)))
-            .map((v, index) => {
-                return <tr key={index}>
+            {formData.map((v, key) => {
+              return (
+                <tr key={key}>
                   <td>{v.name}</td>
                   <td>{v.age}</td>
                   <td>{v.course}</td>
+                  <td>
+                    <button
+                      style={{
+                        padding: "5px 10px",
+                        backgroundColor: "red",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => {
+                        handleDelete(key);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </td>
                 </tr>
-              })
-            )}
+              );
+            })}
           </tbody>
-        </table>}
+        </table>
+
+        <div>
+          <label>Course : </label>
+          <input
+            type="text"
+            value={searchCourse}
+            onChange={(e) => setSearchCourse(e.target.value)}
+          />
+          <p>Input : {debounceSearchCourse}</p>
+          <button
+            onClick={() => {
+              setSearchBtn(true);
+              if (setSearchCourse) {
+                setSearchCourse(searchCourse);
+              }
+            }}
+          >
+            Search
+          </button>
+        </div>
+
+        {serachBtn && (
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Course</th>
+              </tr>
+            </thead>
+            <tbody>
+              {formData
+                .filter((e) => {
+                  return e.course === searchCourse;
+                })
+                .map((e, key) => {
+                  return (
+                    <tr key={key}>
+                      <td>{e.name}</td>
+                      <td>{e.age}</td>
+                      <td>{e.course}</td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
+        )}
       </div>
-    </div>
+    </>
   );
 }
 
