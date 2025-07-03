@@ -44,6 +44,8 @@ const Products = () => {
       const response = await fetch("https://dummyjson.com/products/?limit=200");
       const responseInJson = await response.json();
       setData(responseInJson.products);
+      console.log(responseInJson.products);
+      
     }
     fetchData();
   }, []);
@@ -257,7 +259,7 @@ const Products = () => {
             onClick={() => {
               setCount((p) => p + 1);
             }}
-            disabled={count === data.length}
+            disabled={count+1 === data.length}
           >
             Next
           </button>

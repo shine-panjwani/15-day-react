@@ -10,22 +10,32 @@ import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
+import PrivateRoute from "./pages/PrivateRoute";
 function App() {
   return (
     <>
       {/* <BrowserRouter> */}
-        <Navbar />
+      <Navbar />
 
-        <Routes>
-          <Route path="*" element={<NotFound />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
+      <Routes>
+        {/* 404 ERROR */}
+        <Route path="*" element={<NotFound />} />
+
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+
+
+        <Route element={<PrivateRoute/>}>
           <Route path="/products" element={<Products />} />
           <Route path="/products/:id" element={<ProductDetails />} />
-          <Route path="/cart" element={<Cart/>}/>
-        </Routes>
-      {/* </BrowserRouter> */}
+          <Route path="/cart" element={<Cart />} />
+        </Route>
+      </Routes>
     </>
   );
 }

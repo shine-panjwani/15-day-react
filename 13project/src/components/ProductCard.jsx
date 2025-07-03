@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 
 const ProductCard = ({ id, title, price, images, returnPolicy }) => {
-  const {addToCart} = useContext(CartContext)
+  const {cartItems,addToCart} = useContext(CartContext)
   return (
     <div
       key={id}
@@ -38,7 +38,8 @@ const ProductCard = ({ id, title, price, images, returnPolicy }) => {
           </Link>
           
 
-          <button onClick={()=> addToCart({ id, title, price, images, returnPolicy })}>
+          <button onClick={()=>{
+            addToCart({ id, title, price, images, returnPolicy })}}>
             Add to cart
             </button>
         </div>
