@@ -33,37 +33,10 @@
   }
 }
 
-/* Default Light Mode */
-.container {
-  background-color: white;
-  color: black;
-  min-height: 100vh;
-  padding: 20px;
+.card {
+  padding: 2em;
 }
 
-/* Dark Mode */
-.dark {
-  background-color: #1e1e1e;
-  color: white;
+.read-the-docs {
+  color: #888;
 }
-
-input, select {
-  padding: 8px;
-  margin: 5px 0;
-  border-radius: 4px;
-}
-
-/* Inputs in dark mode */
-.dark input,
-.dark select {
-  background-color: #333;
-  color: white;
-  border: 1px solid #555;
-}
-
-.edit-btn, .delete-btn, .submit-btn {
-  margin-right: 5px;
-  padding: 5px 10px;
-}
-
-/* Button styling can be enhanced here */
