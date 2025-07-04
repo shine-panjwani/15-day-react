@@ -1,10 +1,9 @@
-import { useContext, useEffect, useReducer, useState } from "react";
+import { useContext, useEffect, useReducer, useRef, useState } from "react";
 import "./App.css";
 import { ThemeContext } from "./context/ThemeContext";
 
 function App() {
   const { isDark, themeSetter } = useContext(ThemeContext);
-  const [counter, dispatch] = useReducer(countReducer, 0);
   return (
     <>
       <h1>Hii</h1>
@@ -15,15 +14,43 @@ function App() {
       >
         {isDark ? "Light" : "Dark"}
       </button>
-      <h1>Counter : {counter}</h1>
-      <button onClick={()=>{dispatch({type : "increment"})}}>+</button>
-      <button onClick={()=>{dispatch({type : "decrement"})}}>-</button>
-      <button onClick={()=>{dispatch({type : "reset"})}}>Reset</button>
+      <br />
+      <EnterInput />
     </>
   );
 }
 
 export default App;
+
+function CounterUserReducer() {
+  const [counter, dispatch] = useReducer(countReducer, 0);
+  return (
+    <>
+      <h1>Counter : {counter}</h1>
+      <button
+        onClick={() => {
+          dispatch({ type: "increment" });
+        }}
+      >
+        +
+      </button>
+      <button
+        onClick={() => {
+          dispatch({ type: "decrement" });
+        }}
+      >
+        -
+      </button>
+      <button
+        onClick={() => {
+          dispatch({ type: "reset" });
+        }}
+      >
+        Reset
+      </button>
+    </>
+  );
+}
 function countReducer(state, action) {
   switch (action.type) {
     case "increment":
@@ -35,4 +62,20 @@ function countReducer(state, action) {
     default:
       return state;
   }
+}
+
+// useRef
+// Refrence to a value, such that when you cange the value, the component
+// DOES NOT RE-RENDER
+function EnterInput() {
+  const inputRef = useRef();
+  console.log(inputRef);
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+  return (
+    <>
+      <input ref={inputRef} type="text" />
+    </>
+  );
 }
