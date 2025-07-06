@@ -1,20 +1,21 @@
 import { useState } from "react";
 import "./App.css";
-import { useRef } from "react";
+import { useRef} from "react";
 import { useEffect } from "react";
 function App() {
   return (
     <>
       {/* clock with start and end button */}
-      <Timer />
+      {/* <Timer /> */}
       <br />
       {/* input with focus feature */}
-      <FocusOnInput />
+      {/* <FocusOnInput /> */}
       <br />
       {/*  Show Previous Value */}
-      <ShowPrevValue />
+      {/* <ShowPrevValue /> */}
       {/*Scroll to Input on Button Click*/}
-      <Scroll />
+      {/* <Scroll /> */}
+
     </>
   );
 }
@@ -114,3 +115,4 @@ function Scroll() {
     </>
   );
 }
+
